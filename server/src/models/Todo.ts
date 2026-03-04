@@ -12,15 +12,15 @@ const todoSchema = new Schema<ITodo>(
   {
     title: {
       type: String,
-      required: true,
+      required: [true, "Title is required"],
       trim: true,
-      minlength: 1,
-      maxlength: 255,
+      minlength: [1, "Title cannot be empty"],
+      maxlength: [255, "Title cannot exceed 255 characters"],
     },
     description: {
       type: String,
       trim: true,
-      maxlength: 2000,
+      maxlength: [2000, "Description cannot exceed 2000 characters"],
     },
     done: {
       type: Boolean,
@@ -31,5 +31,8 @@ const todoSchema = new Schema<ITodo>(
     timestamps: true,
   }
 );
+
+// Index for efficiently fetching todos sorted by newest first
+todoSchema.index({ createdAt: -1 });
 
 export const Todo = model<ITodo>("Todo", todoSchema);
