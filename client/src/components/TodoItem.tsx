@@ -35,7 +35,7 @@ export const TodoItem = ({ todo }: Props) => {
     <>
       <div
         className={`group flex items-start gap-4 p-4 rounded-xl border bg-card transition-all duration-200 
-          ${todo.done ? "opacity-60" : "hover:shadow-md hover:-translate-y-0.5"}`}
+          ${todo.done ? "opacity-60" : "hover:shadow-md hover:-translate-y-0.5 hover:bg-black/5"}`}
       >
         {/* Checkbox — optimistic toggle */}
         <Checkbox
