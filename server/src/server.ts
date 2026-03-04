@@ -1,8 +1,12 @@
 import app from "./app";
+import { connectDB } from "./db";
+import { config } from "./config/env";
 
 const start = async (): Promise<void> => {
-  app.listen("4000", () => {
-    console.log(`🚀 Server running on http://localhost:4000`);
+  await connectDB();
+
+  app.listen(config.port, () => {
+    console.log(`🚀 Server running on http://localhost:${config.port} [${config.nodeEnv}]`);
   });
 };
 
