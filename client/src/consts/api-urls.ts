@@ -1,5 +1,5 @@
 export const API_URLS = {
-  TODO: "/api/todos",
+  TODO: "/api/v1/todos",
   TODO_DONE: "/:id/done",
   TODO_DELETE: "/:id",
   TODO_UPDATE: "/:id",

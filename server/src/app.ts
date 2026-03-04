@@ -32,7 +32,7 @@ app.use(express.urlencoded({ extended: false }));
 app.get("/health", (_req, res) => res.json({ status: "ok" }));
 
 // API routes
-app.use("/api/todos", todoRouter);
+app.use("/api/v1/todos", todoRouter);
 
 // Global error handler (must be last)
 app.use(errorHandler);
