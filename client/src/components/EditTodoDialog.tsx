@@ -76,7 +76,7 @@ export const EditTodoDialog = ({ todo, open, onClose }: Props) => {
               Cancel
             </Button>
             <Button type="submit" disabled={isPending}>
-              {isPending ? "Saving…" : "Save changes"}
+              {isPending ? "Saving..." : "Save changes"}
             </Button>
           </DialogFooter>
         </form>

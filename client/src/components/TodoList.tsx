@@ -101,15 +101,10 @@ export const TodoList = () => {
             return (
               <div
                 key={todo._id}
+                className="absolute top-0 left-0 w-full py-2"
                 style={{
-                  position: "absolute",
-                  top: 0,
-                  left: 0,
-                  width: "100%",
                   height: `${virtualItem.size}px`,
                   transform: `translateY(${virtualItem.start}px)`,
-                  paddingBottom: "12px",
-                  paddingTop: "6px",
                 }}
               >
                 <TodoItem todo={todo} />

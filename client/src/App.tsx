@@ -31,7 +31,7 @@ function App() {
         </header>
 
         {/* Main content */}
-        <main className="max-w-2xl mx-auto px-4 py-8 space-y-6">
+        <main className="max-w-2xl mx-auto px-4 py-3 space-y-6">
           <TodoForm />
 
           <div>

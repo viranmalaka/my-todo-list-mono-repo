@@ -58,7 +58,7 @@ export const TodoForm = () => {
       </div>
 
       <Button type="submit" disabled={isPending} className="w-full">
-        {isPending ? "Adding…" : "Add Task"}
+        {isPending ? "Adding..." : "Add Task"}
       </Button>
     </form>
   );
