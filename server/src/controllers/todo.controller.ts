@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { Todo } from "../models/Todo";
 import { asyncHandler } from "../middleware/asyncHandler";
+import { AppError } from "../errors/AppError";
 
 /**
  * GET /api/todos
@@ -41,10 +42,7 @@ export const updateTodo = asyncHandler(async (req: Request, res: Response) => {
     },
     { new: true, runValidators: true }
   );
-  if (!todo) {
-    res.status(404).json({ message: "Todo not found" });
-    return;
-  }
+  if (!todo) throw AppError.notFound("Todo");
   res.json(todo);
 });
 
@@ -54,10 +52,7 @@ export const updateTodo = asyncHandler(async (req: Request, res: Response) => {
  */
 export const toggleDone = asyncHandler(async (req: Request, res: Response) => {
   const todo = await Todo.findById(req.params["id"]);
-  if (!todo) {
-    res.status(404).json({ message: "Todo not found" });
-    return;
-  }
+  if (!todo) throw AppError.notFound("Todo");
   todo.done = !todo.done;
   await todo.save();
   res.json(todo);
@@ -69,9 +64,6 @@ export const toggleDone = asyncHandler(async (req: Request, res: Response) => {
  */
 export const deleteTodo = asyncHandler(async (req: Request, res: Response) => {
   const todo = await Todo.findByIdAndDelete(req.params["id"]);
-  if (!todo) {
-    res.status(404).json({ message: "Todo not found" });
-    return;
-  }
+  if (!todo) throw AppError.notFound("Todo");
   res.status(204).send();
 });
