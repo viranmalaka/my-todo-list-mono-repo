@@ -9,7 +9,7 @@
     "client"
   ],
   "scripts": {
-    "dev": "concurrently \"npm run dev -w server\""
+    "dev": "concurrently \"npm run dev -w server\" \"npm run dev -w client\""
   },
   "keywords": [],
   "author": "",
