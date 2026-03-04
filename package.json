@@ -1,14 +1,20 @@
 {
   "name": "my-todo-list",
   "version": "1.0.0",
-  "description": "This is an assesment project",
-  "license": "ISC",
-  "author": "",
-  "type": "commonjs",
+  "description": "",
   "main": "index.js",
+  "private": true,
+  "workspaces": [
+    "server",
+    "client"
+  ],
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "concurrently \"npm run dev -w server\""
   },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
   "devDependencies": {
     "concurrently": "^9.2.1",
     "prettier": "^3.8.1"
