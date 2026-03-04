@@ -1,0 +1,16 @@
+{
+  "name": "my-todo-list",
+  "version": "1.0.0",
+  "description": "This is an assesment project",
+  "license": "ISC",
+  "author": "",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "devDependencies": {
+    "concurrently": "^9.2.1",
+    "prettier": "^3.8.1"
+  }
+}
