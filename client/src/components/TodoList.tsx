@@ -26,8 +26,13 @@ export const TodoList = () => {
   const rowVirtualizer = useVirtualizer({
     count: sortedTodos.length,
     getScrollElement: () => parentRef.current,
-    estimateSize: () => 115,
+    getItemKey: (index) => sortedTodos[index]?._id ?? index,
+    estimateSize: () => 100,
     overscan: 5,
+    measureElement:
+      typeof window !== "undefined" && navigator.userAgent.indexOf("Firefox") === -1
+        ? (el) => el.getBoundingClientRect().height
+        : undefined,
   });
 
   if (isLoading) return <TodoSkeleton />;
@@ -101,9 +106,10 @@ export const TodoList = () => {
             return (
               <div
                 key={todo._id}
-                className="absolute top-0 left-0 w-full py-2"
+                data-index={virtualItem.index}
+                ref={rowVirtualizer.measureElement}
+                className="absolute top-0 left-0 w-full py-1"
                 style={{
-                  height: `${virtualItem.size}px`,
                   transform: `translateY(${virtualItem.start}px)`,
                 }}
               >
