@@ -1,4 +1,5 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { toast } from "sonner";
 import type { Todo, CreateTodoDto, UpdateTodoDto } from "../types/todo";
 import { TodoService } from "@/service/TodoService";
 
@@ -16,6 +17,7 @@ export const useCreateTodo = () => {
   return useMutation({
     mutationFn: (dto: CreateTodoDto) => TodoService.create(dto),
     onSuccess: () => qc.invalidateQueries({ queryKey: TODOS_KEY }),
+    onError: (err: Error) => toast.error(err.message),
   });
 };
 
@@ -24,6 +26,7 @@ export const useUpdateTodo = () => {
   return useMutation({
     mutationFn: ({ id, dto }: { id: string; dto: UpdateTodoDto }) => TodoService.update(id, dto),
     onSuccess: () => qc.invalidateQueries({ queryKey: TODOS_KEY }),
+    onError: (err: Error) => toast.error(err.message),
   });
 };
 
@@ -45,6 +48,7 @@ export const useToggleDone = () => {
     },
     onError: (_err: Error, _id, ctx) => {
       qc.setQueryData(TODOS_KEY, ctx?.previous);
+      toast.error("Failed to update todo. Changes reverted.");
     },
     onSettled: () => qc.invalidateQueries({ queryKey: TODOS_KEY }),
   });
@@ -62,6 +66,7 @@ export const useDeleteTodo = () => {
     },
     onError: (_err: Error, _id, ctx) => {
       qc.setQueryData(TODOS_KEY, ctx?.previous);
+      toast.error("Failed to delete todo. Changes reverted.");
     },
     onSettled: () => qc.invalidateQueries({ queryKey: TODOS_KEY }),
   });
