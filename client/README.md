@@ -1,73 +1,92 @@
-# React + TypeScript + Vite
+# Client — React + Vite SPA
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+The front-end workspace of the todo monorepo. Built with React 18, TypeScript, and Vite. Styled with Tailwind CSS v4 via shadcn/ui components.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Tech Stack
 
-## React Compiler
+| Technology            | Role                                         |
+| --------------------- | -------------------------------------------- |
+| React 18 + TypeScript | UI framework                                 |
+| Vite                  | Build tool + dev server (HMR)                |
+| Tailwind CSS v4       | Utility-first styling                        |
+| shadcn/ui             | Pre-built accessible component primitives    |
+| TanStack Query v5     | Server state, caching, and mutations         |
+| TanStack Virtualizer  | Performant list rendering for large datasets |
+| React Hook Form + Zod | Client-side form validation                  |
+| Axios                 | HTTP client                                  |
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+---
 
-## Expanding the ESLint configuration
+## Project Structure
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```
+src/
+├── components/
+│   ├── ui/              # shadcn/ui primitives (Button, Checkbox, …)
+│   ├── TodoForm.tsx     # Add-todo form with Zod validation
+│   ├── TodoItem.tsx     # Single todo row — toggle, edit, delete
+│   ├── TodoList.tsx     # Virtualised list + progress bar + sort toggle
+│   ├── EditTodoDialog.tsx
+│   ├── TodoSkeleton.tsx # Loading skeleton
+│   └── ErrorBoundary.tsx
+├── context/
+│   └── NewTodoContext.tsx  # Tracks last-created ID for entrance animation
+├── hooks/
+│   └── todo-queries.ts  # TanStack Query hooks (useGetTodos, useCreateTodo, …)
+├── service/
+│   └── TodoService.ts   # Axios API calls
+├── types/
+│   └── todo.ts          # Shared TypeScript interfaces
+├── App.tsx
+├── main.tsx
+└── index.css            # Tailwind + custom keyframe animations
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+---
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## Key Design Decisions
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+**Virtualised list** — `useVirtualizer` from TanStack renders only the rows in the viewport. This keeps performance smooth regardless of how many todos exist.
+
+**Optimistic updates** — `useToggleDone` and `useDeleteTodo` update the local TanStack Query cache immediately in `onMutate`, giving instant feedback. On server error the snapshot is restored automatically.
+
+**Single nginx reverse proxy** — In the Docker build, `VITE_API_URL` is intentionally left empty. The browser uses relative `/api/*` paths which nginx proxies to the server container. This means the same build artifact works in any environment.
+
+---
+
+## Environment Variables
+
+Create a `.env.local` file in `client/` for local development overrides.
+
+| Variable       | Default      | Description                                                                                                                                                    |
+| -------------- | ------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `VITE_API_URL` | `""` (empty) | API base URL. Empty = relative paths (correct for Docker/nginx). Set to `http://localhost:5000` only if running the client standalone without the nginx proxy. |
+
+---
+
+## Local Development
+
+From the **monorepo root**:
+
+```bash
+npm run dev -w client    # Vite dev server only
+# or
+npm run dev              # client + server together (recommended)
+```
+
+The dev server starts at **http://localhost:5173**.
+
+---
+
+## Production Build (Docker)
+
+The `Dockerfile` uses a two-stage build:
+
+1. **Builder** — installs deps and runs `vite build` → outputs to `dist/`
+2. **Serve** — copies `dist/` into an nginx image; `nginx.conf` proxies `/api/*` to the server
+
+```bash
+docker compose up --build   # from the monorepo root
 ```
