@@ -1,0 +1,130 @@
+{
+  "info": {
+    "_postman_id": "91d28d84-e5f0-47fe-8a47-7a9d3f2bdf8e",
+    "name": "Todo List",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "1385590",
+    "_collection_link": "https://go.postman.co/collection/1385590-91d28d84-e5f0-47fe-8a47-7a9d3f2bdf8e?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "TODO - GET",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{url}}/api/todos",
+          "host": [
+            "{{url}}"
+          ],
+          "path": [
+            "api",
+            "todos"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "TODO - Create",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"title\": \"Test TODO asdfadsfasdfadsf\",\n    \"description\": \"Test description\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{url}}/api/todos",
+          "host": [
+            "{{url}}"
+          ],
+          "path": [
+            "api",
+            "todos"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "TODO - PUT",
+      "request": {
+        "method": "PUT",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"title\": \"Test TODO\",\n    \"description\": \"Test description\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{url}}/api/todos/69a83956f51cd48e54cded83",
+          "host": [
+            "{{url}}"
+          ],
+          "path": [
+            "api",
+            "todos",
+            "69a83956f51cd48e54cded83"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "TODO - Done",
+      "request": {
+        "method": "PATCH",
+        "header": [],
+        "url": {
+          "raw": "{{url}}/api/todos/69a83956f51cd48e54cded83/done?id=69a83956f51cd48e54cded83",
+          "host": [
+            "{{url}}"
+          ],
+          "path": [
+            "api",
+            "todos",
+            "69a83956f51cd48e54cded83",
+            "done"
+          ],
+          "query": [
+            {
+              "key": "id",
+              "value": "69a83956f51cd48e54cded83",
+              "type": "text"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "TODO - Delete",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{url}}/api/todos/69a83956f51cd48e54cded83",
+          "host": [
+            "{{url}}"
+          ],
+          "path": [
+            "api",
+            "todos",
+            "69a83956f51cd48e54cded83"
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}

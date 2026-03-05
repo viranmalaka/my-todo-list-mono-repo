@@ -1,0 +1,26 @@
+{
+  "name": "my-todo-list",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "private": true,
+  "workspaces": [
+    "server",
+    "client"
+  ],
+  "scripts": {
+    "dev": "concurrently \"npm run dev -w server\" \"npm run dev -w client\"",
+    "build": "npm run build -w server && npm run build -w client",
+    "format": "prettier --write \"server/src/**/*.ts\" \"client/src/**/*.{ts,tsx}\"",
+    "format:check": "prettier --check \"server/src/**/*.ts\" \"client/src/**/*.{ts,tsx}\"",
+    "install:all": "npm install && npm install -w client && npm install -w server"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "concurrently": "^9.2.1",
+    "prettier": "^3.8.1"
+  }
+}
