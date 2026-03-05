@@ -68,6 +68,7 @@ src/
 ## REST API Reference
 
 Base path: `/api/v1/todos`
+[NOTE: There's a postman collection on the root dir to test these endpoints]
 
 | Method   | Path        | Description                     | Body                       | Success          |
 | -------- | ----------- | ------------------------------- | -------------------------- | ---------------- |
